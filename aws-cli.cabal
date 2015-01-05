@@ -64,7 +64,7 @@ executable create-alarm
   build-depends:       base >=4.7 && <4.8
                      , amazonka
                      , amazonka-cloudwatch
-                     , nats
+                     , lens
                      , optparse-applicative
                      , resourcet
                      , text
