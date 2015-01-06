@@ -18,8 +18,11 @@ version:             0.1.0.0
 -- A longer description of the package.
 -- description:
 
+-- URL for the project homepage or repository.
+homepage:            https://github.com/zalora/aws-cli
+
 -- The license under which the package is released.
-license:             AllRightsReserved
+license:             MPL-2.0
 
 -- The file containing the license text.
 license-file:        LICENSE
@@ -40,7 +43,7 @@ build-type:          Simple
 
 -- Extra files to be distributed with the package, such as examples or a
 -- README.
--- extra-source-files:
+extra-source-files:  README.md
 
 -- Constraint on the version of Cabal needed to build this package.
 cabal-version:       >=1.10
@@ -54,7 +57,7 @@ executable create-alarm
   -- other-modules:
 
   -- LANGUAGE extensions used by modules in this package.
-  -- other-extensions:
+  other-extensions:    StandaloneDeriving, RecordWildCards
 
   -- Other library packages from which modules are imported.
   build-depends:       base >=4.7 && <4.8
@@ -74,6 +77,7 @@ executable create-alarm
 
 executable put-metric
   main-is:             PutMetric.hs
+  other-extensions:    StandaloneDeriving, RecordWildCards
   build-depends:       base >=4.7 && <4.8
                      , amazonka
                      , amazonka-cloudwatch
