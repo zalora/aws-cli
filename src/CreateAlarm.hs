@@ -7,15 +7,11 @@ import qualified Options.Applicative as O
 
 import Control.Lens (set)
 import Control.Monad.Trans.Resource (runResourceT)
-import Data.Text (Text)
+import Data.Text (Text, split, pack)
 import Options.Applicative ((<*>), (<$>))
 import System.Exit (exitFailure)
 
 import Common
-
-
-deriving instance Read C.ComparisonOperator
-deriving instance Read C.Statistic
 
 
 data CreateAlarm = CreateAlarm
@@ -53,6 +49,15 @@ createAlarm ca@CreateAlarm{..} = do
                                  caComparisonOperator
 
 
+toDimesion :: String -> Either String C.Dimension
+toDimesion v = case split (== '=') $ pack v of
+    [x, y] -> Right $ C.dimension x y
+    _      -> Left $ "cannot parse value `" ++ v ++ "'"
+
+dimension :: O.ReadM C.Dimension
+dimension = O.eitherReader toDimesion
+
+
 createAlarmParser :: O.Parser CreateAlarm
 createAlarmParser = CreateAlarm
     <$> O.option text (makeOption "alarmName")
@@ -66,7 +71,7 @@ createAlarmParser = CreateAlarm
     <*> O.option O.auto (makeOption "threshold")
     <*> O.option O.auto (makeOption "comparisonOperator")
     <*> O.option text (makeOption "topicArn")
-    <*> O.many (O.option O.auto (makeOption "dimension"))
+    <*> O.many (O.option dimension (makeOption "dimension"))
     <*> O.optional (O.option O.auto (makeOption "unit"))
 
 
