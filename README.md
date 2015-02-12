@@ -1,4 +1,4 @@
-aws-cli
+cl-aws
 =======
 
 AWS CLI based on [brendanhay/amazonka](https://github.com/brendanhay/amazonka)
